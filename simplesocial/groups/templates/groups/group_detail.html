@@ -1,0 +1,39 @@
+{% extends 'groups/group_base.html' %}
+{% block pregroup %}
+<!-- this group.name comes from class based views -->
+<!-- model has Group so context dictionary passed has group  -->
+<div id="post-heading">
+  <h1 >{{ group.name }}</h1>
+  <!-- calling count function on model object -->
+  <h2 >Member count: {{  group.members.count }}</h2>
+</div>
+<hr />
+<div class="content">
+  {% if user in group.members.all %}
+  <a class="btn btn-lg btn-warning btn-fill" href="{% url 'groups:leave' slug=group.slug %}">
+    <span class="glyphicon glyphicon-remove-circle"></span>Leave
+  </a>
+  {% else %}
+  <a class="btn btn-lg btn-default btn-fill" href="{% url 'groups:join' slug=group.slug %}">
+    <span class="glyphicon glyphicon-ok-circle"></span>Join
+  </a>
+  {% endif %}
+</div>
+{% endblock %}
+
+
+{% block group_content %}
+<div class="col-md-8">
+  {% if group.posts.count == 0 %}
+    <h2>No posts in this group yet.</h2>
+  {% else %}
+    {% for post in group.posts.all %}
+      <!-- include is like extends except it inserts it in the middle of html file  -->
+      <!-- include is used to inject an html file inside html file -->
+      <!-- the html template calls and etc will be included in _post.html so it is as it is included  -->
+      <!-- _post.html has underscore to signify that this file is being injected into another html files  -->
+      {% include 'posts/_post.html' %}
+    {% endfor %}
+  {% endif %}
+</div>
+{% endblock %}

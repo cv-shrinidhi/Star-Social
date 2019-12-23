@@ -1,0 +1,47 @@
+{% extends 'groups/group_base.html' %}
+{% block pregroup %}
+<div class="col-md-4">
+  <div class="content">
+    {% if user.is_authenticated %}
+    <h2>Welcome back <a href="{% url 'posts:for_user' username=user.username %}">
+      @{{ user.username }}</a></h2>
+      <!-- if you click on the user name, you will be redirected to all the posts created by that user -->
+    {% endif %}
+    <br>
+    <h2>Groups</h2>
+  </div>
+  {% if user.is_authenticated %}
+  <br><br><br>
+  <a href="{% url 'groups:create' %}" class="btn btn-lg btn-fill btn-warning">
+    <span class="glyphicon glyphicon-plus-sign"> Create New Group</span>
+  </a>
+  {% endif %}
+</div>
+{% endblock %}
+
+
+{% block group_content %}
+<div class="col-md-8">
+  <div class="list-group">
+    {% for group in object_list %} <!-- object_list refers to list of all the existing groups objects -->
+      <a class="list-group-item" href="{% url 'groups:single' slug=group.slug %}">
+      <h3 class="title list-group-item-heading">{{ group.name }}</h3>
+      <!-- click on group name and it takes to group detail page -->
+      <div class="list-group-item-text container-fluid">
+        {{group.description_html|safe}}
+        <div class="row">
+          <div class="col-md-4">
+            <span class="badge">{{ group.members.count }}</span>
+            post{{ groups.members.count|pluralize }}
+          </div>
+          <div class="col-md-4">
+            <span class="badge">{{ group.posts.count }}</span>
+            post{{ groups.post.count|pluralize }}
+          </div>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

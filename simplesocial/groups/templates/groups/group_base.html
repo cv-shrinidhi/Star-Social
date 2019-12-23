@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <!-- these blocks below are inherited by the other group html files -->
+    <!-- so their extends is from groups/group_base -->
+    {% block pregroup %} {% endblock %}
+    {% block group_content %} {% endblock %}
+    {% block postgroup %} {% endblock %}
+  </div>
+</div>
+{% endblock %}
